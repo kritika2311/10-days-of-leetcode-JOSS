@@ -1,37 +1,36 @@
-class Solution {
+class Pair {
+        int val;
+        int index;
+        Pair(int v, int i) {
+            this.val = v;
+            this.index = i;
+        }
+    }
+    
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
-        boolean res = false;
-        for(int i=0;i<nums.length;i++)
-        {
-            for(int j =i+1;j<nums.length;j++)
-            {
-                if(nums[i]>nums[j])
-                {
-                    int temp = nums[i];
-                    nums[i] = nums[j];
-                    nums[j] = temp;
+        if (nums == null || nums.length < 2 || t < 0 || k < 1) {
+            return false;
+        }
+        int len = nums.length;
+        Pair[] pair = new Pair[len];
+        for(int i = 0; i < len; i++) {
+            pair[i] = new Pair(nums[i], i);
+        }
+        
+        Arrays.sort(pair, new Comparator<Pair> () {
+          public int compare(Pair p1, Pair p2) {
+              return p1.val - p2.val;
+          } 
+        });
+        
+        for(int i = 0; i < len; i++) {
+            for(int j = i + 1; j < len && Math.abs((long)pair[j].val - (long)pair[i].val) <= (long)t; j++){
+                int indexDiff = Math.abs(pair[i].index - pair[j].index);
+                if (indexDiff <= k) {
+                    return true;
                 }
             }
         }
-        for(int i =nums.length-1;i>=0;i++)
-        {
-            for (int j =nums.length-1;j>=0;j++)
-            {
-                int diff = nums[i] - nums[j];
-                    if(diff == k)
-                    {
-                        res = true;
-                        break;
-                    }
-                else if(diff == t)
-                {
-                    res = true;
-                    break;
-                }
-            }
-            if (res == true)
-                break;
-        }
-        return res;
+        return false;
     }
 }
