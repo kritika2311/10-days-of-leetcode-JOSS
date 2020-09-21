@@ -1,0 +1,37 @@
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        boolean res = false;
+        for(int i=0;i<nums.length;i++)
+        {
+            for(int j =i+1;j<nums.length;j++)
+            {
+                if(nums[i]>nums[j])
+                {
+                    int temp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = temp;
+                }
+            }
+        }
+        for(int i =nums.length-1;i>=0;i++)
+        {
+            for (int j =nums.length-1;j>=0;j++)
+            {
+                int diff = nums[i] - nums[j];
+                    if(diff == k)
+                    {
+                        res = true;
+                        break;
+                    }
+                else if(diff == t)
+                {
+                    res = true;
+                    break;
+                }
+            }
+            if (res == true)
+                break;
+        }
+        return res;
+    }
+}
